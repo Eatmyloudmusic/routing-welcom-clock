@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 //import our service
 import JeopardyService from "../../jeopardyService";
+import SubmitForm from "../submitForm/SubmitForm";
+import Display from "../display/Display";
 
-import Question from "../question/Question";
+// import Question from "../question/Question";
 // import PlayerDisplay from "./components/playerDisplay/PlayerDisplay"
-import PlayerInput from "../../PlayerInput"
+// import PlayerInput from "../../PlayerInput"
 
 class Jeopardy extends Component {
   //set our initial state and set up our service as this.client on this component
@@ -13,9 +15,14 @@ class Jeopardy extends Component {
     this.client = new JeopardyService();
     this.state = { showMessage: false };
     this.state = {
+      value: 0,
       data: {},
-      score: 0
+      score: 0,
+      formData:{
+      Answer:''
+        }
       
+
     }
   }
   //get a new random question from the API and add it to the data object in state
@@ -26,6 +33,31 @@ class Jeopardy extends Component {
       })
     })
   }
+handleChange = (event) => {
+  const formData = {...this.state.formData}
+  formData[event.tartget.name] = event.target.value
+    this.setState({formData: {Answer: event.target.value}});
+
+}
+
+
+
+
+handleSubmit = (event) => {
+  event.preventDefault();
+  let score = this.state.score
+    if (this.state.formData.Answer === this.state.data.answer){
+      this.setState({score: score +=this.state.data.value})
+    } else {
+      this.setState ({score: score -= this.state.data.value})
+
+
+    }
+    this.getNewQuestion()
+
+
+}
+
   //when the component mounts, get a the first question
   componentDidMount() {
     this.getNewQuestion();
@@ -40,24 +72,33 @@ class Jeopardy extends Component {
   
   render() {
 
-    let category = "loading"
+    // let category = "loading"
 
-    if(this.state.data.category){
-        category = this.state.data.category.title
-    }
+    // if(this.state.data.category){
+    //     category = this.state.data.category.title
+    // }
     return (
       <div>
         {/* {JSON.stringify(this.state.data)} */}
-        <strong>Users Score: </strong>{this.state.score}<br />
+
+<SubmitForm handleChange = {this.handleChange}
+    handleSubmit = {this.handleSubmit}/>
+
+        {/* <strong>Users Score: </strong>{this.state.score}<br />
         <strong>Question: </strong>{this.state.data.question}<br />
         <strong>Value: </strong>{this.state.data.value}<br />
-        <strong>Category: </strong>{category}<br />
+        <strong>Category: </strong>{category}<br /> */}
         {/* <strong>Answer: </strong>{this.state.data.answer}<br /> */}
         <br />
-        <input type="text" 
+        <Display 
+        question = {this.state.data.question}
+        value = {this.state.value}
+        score = {this.state.score}
+        category = {this.state.data.category} />
+        {/* <input type="text" 
         name="answer" 
         placeholder="Place Answer Here..."
-        onChange={this.inputData}/>
+        onChange={this.inputData}/> */}
         <br />
         <div id="lucky2"></div>
         <strong>Click the buttons to toggle the Answer: </strong><br/>
