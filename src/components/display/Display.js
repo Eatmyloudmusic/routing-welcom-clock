@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 
 // let category="";
@@ -23,9 +21,9 @@ function Display(props){
         }
         return(
             <div>
-<strong>User Score: </strong>{props.score} <br />
-<strong>Question: </strong> {props.question}<br />
-<strong>Category is </strong>{this.props.category}<br />
+<strong>Your Score: </strong>{props.score} <br />
+<strong>The Question is </strong> {props.question}<br />
+<strong>Category: </strong>{category}<br />
 
 
 <strong>Value = </strong>{props.value} <br />
@@ -34,6 +32,8 @@ function Display(props){
             </div>
         )
 }
+
+
 export default Display;
 
 

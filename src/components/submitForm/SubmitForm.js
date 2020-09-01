@@ -13,9 +13,9 @@ import React from "react";
 // }
 function SubmitForm(props) {
   return (
-    <form onSubmit={props.handleSubmit}>
+    <form onSubmit={props.getSubmit}>
       <label> The Answer is <input type="text" onChange={props.handleChange} /> </label>
-      <input type="" value="" />
+      <input type="submit" value="GO!!" />
 
 
 

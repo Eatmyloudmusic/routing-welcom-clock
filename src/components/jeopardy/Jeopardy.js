@@ -13,13 +13,16 @@ class Jeopardy extends Component {
   constructor(props){
     super(props);
     this.client = new JeopardyService();
-    this.state = { showMessage: false };
+    // this.state = { showMessage: false };
     this.state = {
+      showMessage: false,
+      name: "",
       value: 0,
       data: {},
       score: 0,
       formData:{
-      Answer:''
+        value: 0,
+      answer:''
         }
       
 
@@ -35,7 +38,7 @@ class Jeopardy extends Component {
   }
 handleChange = (event) => {
   const formData = {...this.state.formData}
-  formData[event.tartget.name] = event.target.value
+  formData[event.target.name] = event.target.value
     this.setState({formData: {Answer: event.target.value}});
 
 }
@@ -43,10 +46,10 @@ handleChange = (event) => {
 
 
 
-handleSubmit = (event) => {
+getSubmit = (event) => {
   event.preventDefault();
   let score = this.state.score
-    if (this.state.formData.Answer === this.state.data.answer){
+    if (this.state.formData.answer === this.state.data.answer){
       this.setState({score: score +=this.state.data.value})
     } else {
       this.setState ({score: score -= this.state.data.value})
@@ -57,17 +60,17 @@ handleSubmit = (event) => {
 
 
 }
-
+showMessage = (bool) => {
+  this.setState({
+    showMessage: bool
+  });
+}
   //when the component mounts, get a the first question
   componentDidMount() {
     this.getNewQuestion();
   }
 
-  showMessage = (bool) => {
-    this.setState({
-      showMessage: bool
-    });
-  }
+  
 
   
   render() {
@@ -82,7 +85,7 @@ handleSubmit = (event) => {
         {/* {JSON.stringify(this.state.data)} */}
 
 <SubmitForm handleChange = {this.handleChange}
-    handleSubmit = {this.handleSubmit}/>
+    getSubmit = {this.getSubmit}/>
 
         {/* <strong>Users Score: </strong>{this.state.score}<br />
         <strong>Question: </strong>{this.state.data.question}<br />
